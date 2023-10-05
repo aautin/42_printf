@@ -1,34 +1,49 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
+#include "libft.h"
 
-int	minimum(int num_args, ...)
+int	num_args_to_insert(const char *text)
 {
-	va_list	args;
+	int num_args;
 	int	i;
-	int	min;
-	int temp;
 
-	i = 1;
-	va_start(args, num_args);
-	min = va_arg(args, int); 
-	while (i++ < num_args)
+	num_args = 0;
+	i = 0;
+	while (text[i])
 	{
-		temp = va_arg(args, int);
-		if (temp < min)
-			min = temp;
+		if (text[i] == '%')
+		{
+			if (text[i + 1] == '%')
+				i++;
+			else if ('a' <= text[i + 1] && text[i + 1] <= 'z')
+				num_args++;
+			else
+				write(5, "error\n", 5);
+		}
+		i++;
 	}
-	va_end(args);
-	return (min);
+	return (num_args);
 }
 
-int	main(void)
+int	ft_printf(const char *text)
 {
-	printf("%d: 3\n", minimum(1, 3));
-	printf("%d: 3\n", minimum(3, 3, 6, 10));
-	printf("%d: 1\n", minimum(4, 3, 2, 1, 2));
-	printf("%d: 0\n", minimum(5, 3, 4, 8, 7, 0));
-	printf("%d: X\n", minimum(0));
-	printf("%d: 0\n", minimum(3, 0, 1, 2));
-	printf("%d: -1\n", minimum(4, -1, 0, -1, 0));
-	printf("%d: 1\n", minimum(5, 1, 2, 3, 2, 1));
+	int	num_args;
+	num_args = num_args_to_insert((const char *)text);
+	return (num_args);
+}
+
+int	main(int argc, char *argv[])
+{
+	int	i;
+	i = 1;
+	char	*text1 = "";
+	char	*text2 = ft_strdup(text1);
+	char	*text3 = ft_strdup(text2);
+	while (i < argc)
+	{
+		printf("argv[%d]: %d (%s)\n", i, ft_printf((const char *)argv[i]), argv[i]);
+		i++;
+	}
+	return (0);
 }
