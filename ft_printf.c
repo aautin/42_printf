@@ -12,3 +12,18 @@
 
 #include "libft.h"
 
+int	main(int argc, char *argv[])
+{
+	char	letter;
+	if (argc == 2)
+	{
+		letter = argv[1][0];
+		if (ft_isalpha(letter))
+			printf("%c est une lettre", letter);
+		else
+			printf("%c n'est pas une lettre", letter);
+	}
+	else
+		(void) letter;
+	return (0);
+}
