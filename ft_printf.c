@@ -13,6 +13,19 @@
 #include "libft.h"
 #include <stdarg.h>
 
+int	ft_is_tag(char l1, char l2)
+{
+	if (l1 == 'd' || l1 == 'f' || l1 == 'c' || l1 == 's' || l1 == 'p'
+		|| l1 == 'x' || l1 == 'X' || l1 == 'o' || l1 == 'u' || l1 == 'i')
+		return (1);
+	else if ((l1 == 'l' && (l2 == 'd' || l2 == 'i')))
+		return (2);
+	else if ((l1 == 'h' && (l2 == 'd' || l2 == 'i')))
+		return (2);
+	else
+		return (0);
+}
+
 int	ft_printf(const char *str, ...)
 {
 	int		i;
@@ -24,20 +37,28 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (str[++i])
 	{
-		/*create a funct° which add 1 to the nb_smthg and write the char*/
-		if (str[i] != '%')
+		if (str[i] == '%')
 		{
-			write(1, &str[i], 1);
-			nb_printed_chars++;
-		}
-		if (str[i] == '%' && str[i + 1] == '%')
-		{
-			write(1, "%", 1);
-			nb_printed_chars++;
+			if (ft_is_tag(str[i + 1], str[i + 2]))
+			{
+				write(1, "VAR", 3);
+				if (ft_is_tag(str[i + 1], str[i + 2]) == 2)
+					i++;
+				i++;
+			}
+			else if (str[i + 1] == '%')
+			{
+				write(1, "%", 1);
+				nb_printed_chars++;				
+				i++;
+			}
+			else
+				return (0);
 		}
 		else
 		{
-			/*something appens here with an va_arg*/
+			write(1, &str[i], 1);
+			nb_printed_chars++;
 		}
 	}
 	return (nb_printed_chars);
@@ -45,19 +66,7 @@ int	ft_printf(const char *str, ...)
 
 int	main(int argc, char *argv[])
 {
-	char	letter;
 	if (argc == 2)
-	{
-		letter = argv[1][0];
-		if (ft_isalpha(letter))
-		{
-			ft_printf(" ==%printf%%== ");
-			printf("%c est une lettre", letter);
-		}
-		else
-			printf("%c n'est pas une lettre", letter);
-	}
-	else
-		(void) letter;
+		ft_printf(argv[1]);
 	return (0);
 }
