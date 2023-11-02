@@ -13,17 +13,33 @@
 #include "libft.h"
 #include <stdarg.h>
 
-int	ft_is_tag(char l1, char l2)
+int	ft_tag_index(int *i, char l1, char l2)
 {
 	if (l1 == 'd' || l1 == 'f' || l1 == 'c' || l1 == 's' || l1 == 'p'
 		|| l1 == 'x' || l1 == 'X' || l1 == 'o' || l1 == 'u' || l1 == 'i')
+	{
+		(*i)++;
 		return (1);
+	}
 	else if ((l1 == 'l' && (l2 == 'd' || l2 == 'i')))
+	{
+		*i = *i + 2;
 		return (2);
+	}
 	else if ((l1 == 'h' && (l2 == 'd' || l2 == 'i')))
+	{
+		*i = *i + 2;
 		return (2);
+	}
 	else
 		return (0);
+}
+
+void	ft_add_char_and_actualize(int *i, int *nb_printed_chars, char letter)
+{
+	write(1, &letter, 1);
+	(*nb_printed_chars)++;
+	(*i)++;
 }
 
 int	ft_printf(const char *str, ...)
@@ -39,27 +55,15 @@ int	ft_printf(const char *str, ...)
 	{
 		if (str[i] == '%')
 		{
-			if (ft_is_tag(str[i + 1], str[i + 2]))
-			{
-				write(1, "VAR", 3);
-				if (ft_is_tag(str[i + 1], str[i + 2]) == 2)
-					i++;
-				i++;
-			}
+			if (ft_tag_index(&i, str[i + 1], str[i + 2]))
+				write(1, "[]", 3);
 			else if (str[i + 1] == '%')
-			{
-				write(1, "%", 1);
-				nb_printed_chars++;				
-				i++;
-			}
+				ft_add_char_and_actualize(&i, &nb_printed_chars, '%');
 			else
 				return (0);
 		}
 		else
-		{
-			write(1, &str[i], 1);
-			nb_printed_chars++;
-		}
+			ft_add_char_and_actualize(&i, &nb_printed_chars, (char) &str[i]);
 	}
 	return (nb_printed_chars);
 }
