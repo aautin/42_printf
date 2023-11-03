@@ -45,27 +45,48 @@ void	ft_add_char_and_actualize(int *i, int *nb_printed_chars, char letter)
 int	ft_printf(const char *str, ...)
 {
 	int		i;
-	int		nb_printed_chars;
+	t_list	*lst;
 	va_list	args;
 
 	i = -1;
-	nb_printed_chars = 0;
 	va_start(args, str);
+	write(1, "o", 1);
 	while (str[++i])
 	{
+		write(1, "o", 1);
 		if (str[i] == '%')
 		{
 			if (ft_tag_index(&i, str[i + 1], str[i + 2]))
-				write(1, "[]", 3);
-			else if (str[i + 1] == '%')
-				ft_add_char_and_actualize(&i, &nb_printed_chars, '%');
-			else
-				return (0);
+			{
+				write(1, "i", 1);
+				/*deal the va_arg here*/	
+			}
 		}
 		else
-			ft_add_char_and_actualize(&i, &nb_printed_chars, (char) &str[i]);
+		{
+			write(1, "o", 1);
+			ft_lstadd_back(&lst, ft_lstnew((void *) &str[i]));
+			write(1, "o", 1);
+		}
 	}
-	return (nb_printed_chars);
+	// i = -1;
+	// nb_printed_chars = 0;
+	// va_start(args, str);
+	// while (str[++i])
+	// {
+	// 	if (str[i] == '%')
+	// 	{
+	// 		if (ft_tag_index(&i, str[i + 1], str[i + 2]))
+	// 			write(1, "[]", 3);
+	// 		else if (str[i + 1] == '%')
+	// 			ft_add_char_and_actualize(&i, &nb_printed_chars, '%');
+	// 		else
+	// 			return (0);
+	// 	}
+	// 	else
+	// 		ft_add_char_and_actualize(&i, &nb_printed_chars, (char) &str[i]);
+	// }
+	return (0);
 }
 
 int	main(int argc, char *argv[])
