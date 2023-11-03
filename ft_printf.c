@@ -45,47 +45,42 @@ void	ft_add_char_and_actualize(int *i, int *nb_printed_chars, char letter)
 int	ft_printf(const char *str, ...)
 {
 	int		i;
+	int		j;
+	char	*temp_str;
 	t_list	*lst;
 	va_list	args;
 
 	i = -1;
+	lst = ft_lstnew("");
 	va_start(args, str);
-	write(1, "o", 1);
 	while (str[++i])
 	{
-		write(1, "o", 1);
 		if (str[i] == '%')
 		{
-			if (ft_tag_index(&i, str[i + 1], str[i + 2]))
+			if (str[i + 1] == '%')
 			{
-				write(1, "i", 1);
-				/*deal the va_arg here*/	
+				ft_lstadd_back(&lst, ft_lstnew("%"));
+				i++;
 			}
+			else if (ft_tag_index(&i, str[i + 1], str[i + 2]))
+				write(1, &str[i], 1);
+			else
+				return(0);
 		}
 		else
 		{
-			write(1, "o", 1);
-			ft_lstadd_back(&lst, ft_lstnew((void *) &str[i]));
-			write(1, "o", 1);
+			j = 0;
+			write(1, &str[i], 1);
+			while (str[i + j] && str[i + j] != '%')
+				j++;
+			temp_str = (char *) malloc((j - i) * sizeof(char));
+			ft_strlcpy(temp_str, (char *) &str[i], j - i + 1);
+			ft_lstadd_back(&lst, ft_lstnew(temp_str));
+			free(temp_str);
+			i = j - 1;
 		}
 	}
-	// i = -1;
-	// nb_printed_chars = 0;
-	// va_start(args, str);
-	// while (str[++i])
-	// {
-	// 	if (str[i] == '%')
-	// 	{
-	// 		if (ft_tag_index(&i, str[i + 1], str[i + 2]))
-	// 			write(1, "[]", 3);
-	// 		else if (str[i + 1] == '%')
-	// 			ft_add_char_and_actualize(&i, &nb_printed_chars, '%');
-	// 		else
-	// 			return (0);
-	// 	}
-	// 	else
-	// 		ft_add_char_and_actualize(&i, &nb_printed_chars, (char) &str[i]);
-	// }
+	printf("%s", (char *) lst->next->content);
 	return (0);
 }
 
