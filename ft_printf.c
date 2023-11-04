@@ -35,18 +35,46 @@ int	ft_tag_index(int *i, char l1, char l2)
 		return (0);
 }
 
-void	ft_add_char_and_actualize(int *i, int *nb_printed_chars, char letter)
+int	ft_printchar(char *str, t_list **lst)
 {
-	write(1, &letter, 1);
-	(*nb_printed_chars)++;
-	(*i)++;
+	int	j;
+	char	*temp_str;
+
+	j = 0;
+	while (str[j] && str[j] != '%')
+		j++;
+	temp_str = (char *) malloc((j + 1) * sizeof(char));
+	if (!temp_str)
+		return (0);
+	ft_strlcpy(temp_str, str, j + 1);
+	ft_lstadd_back(lst, ft_lstnew(temp_str));
+	free(temp_str);
+	return (j);
+}
+
+int ft_print_result(t_list **lst)
+{
+	int	nb_printed_chars;
+	int	i;
+
+	nb_printed_chars = 0;
+	while ((*lst)->next)
+	{
+		*lst = (*lst)->next;
+		i = 0;
+		while (((char *)(*lst)->content)[i])
+		{
+			write(1, &((char *)(*lst)->content)[i], 1);
+			i++;
+		}
+		nb_printed_chars += i;
+	}
+	return (nb_printed_chars);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	int		i;
-	int		j;
-	char	*temp_str;
 	t_list	*lst;
 	va_list	args;
 
@@ -63,30 +91,22 @@ int	ft_printf(const char *str, ...)
 				i++;
 			}
 			else if (ft_tag_index(&i, str[i + 1], str[i + 2]))
-				write(1, &str[i], 1);
+				ft_lstadd_back(&lst, ft_lstnew("VAR"));
 			else
+			{
+				write(1, "TAG-ERROR", 9);
 				return(0);
+			}
 		}
 		else
-		{
-			j = 0;
-			write(1, &str[i], 1);
-			while (str[i + j] && str[i + j] != '%')
-				j++;
-			temp_str = (char *) malloc((j - i) * sizeof(char));
-			ft_strlcpy(temp_str, (char *) &str[i], j - i + 1);
-			ft_lstadd_back(&lst, ft_lstnew(temp_str));
-			free(temp_str);
-			i = j - 1;
-		}
+			i += ft_printchar((char *)&str[i], &lst) - 1;
 	}
-	printf("%s", (char *) lst->next->content);
-	return (0);
+	return (ft_print_result(&lst));
 }
 
 int	main(int argc, char *argv[])
 {
 	if (argc == 2)
-		ft_printf(argv[1]);
+		printf("\n%d\n", ft_printf(argv[1]));
 	return (0);
 }
