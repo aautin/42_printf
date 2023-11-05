@@ -13,29 +13,34 @@
 #include "libft.h"
 #include <stdarg.h>
 
-int	ft_tag_index(int *i, char l1, char l2)
+int	ft_tag_id(int *i, char l1, char l2)
 {
 	if (l1 == 'd' || l1 == 'f' || l1 == 'c' || l1 == 's' || l1 == 'p'
 		|| l1 == 'x' || l1 == 'X' || l1 == 'o' || l1 == 'u' || l1 == 'i')
 	{
-		(*i)++;
 		return (1);
 	}
 	else if ((l1 == 'l' && (l2 == 'd' || l2 == 'i')))
 	{
-		*i = *i + 2;
+		if (i)
+			*i = *i + 1;
 		return (2);
 	}
 	else if ((l1 == 'h' && (l2 == 'd' || l2 == 'i')))
 	{
-		*i = *i + 2;
+		if (i)
+			*i = *i + 1;
 		return (2);
 	}
 	else
+	{
+		if (i)
+			*i = *i - 1;
 		return (0);
+	}
 }
 
-int	ft_printchar(char *str, t_list **lst)
+int	ft_crop_and_lst(char *str, t_list **lst)
 {
 	int	j;
 	char	*temp_str;
@@ -72,35 +77,41 @@ int ft_print_result(t_list **lst)
 	return (nb_printed_chars);
 }
 
+void	*ft_va_str(int arg, int tag_id)
+{
+	return ("VAR");
+}
+
 int	ft_printf(const char *str, ...)
 {
 	int		i;
 	t_list	*lst;
-	va_list	args;
+	va_list	arg;
 
 	i = -1;
 	lst = ft_lstnew("");
-	va_start(args, str);
+	va_start(arg, str);
 	while (str[++i])
 	{
 		if (str[i] == '%')
 		{
-			if (str[i + 1] == '%')
-			{
+			// here, have to do something
+			if (str[++i] == '%')
 				ft_lstadd_back(&lst, ft_lstnew("%"));
-				i++;
-			}
-			else if (ft_tag_index(&i, str[i + 1], str[i + 2]))
-				ft_lstadd_back(&lst, ft_lstnew("VAR"));
-			else
+			else if (ft_tag_id(NULL, str[i], str[i + 1]))
 			{
-				write(1, "TAG-ERROR", 9);
-				return(0);
+				// here have to handle the adress of va_arg returned value
+				// but lack of line space (maybe just 2 more).
+				ft_lstadd_back(&lst, ft_lstnew(ft_va_str(va_arg(arg, int),
+					(ft_tag_id(&i, str[i], str[i + 1])))));
 			}
+			else
+				return(write(1, "TAG-ERROR", 9));
 		}
 		else
-			i += ft_printchar((char *)&str[i], &lst) - 1;
+			i += ft_crop_and_lst((char *)&str[i], &lst) - 1;
 	}
+	va_end(arg);
 	return (ft_print_result(&lst));
 }
 
@@ -110,3 +121,22 @@ int	main(int argc, char *argv[])
 		printf("\n%d\n", ft_printf(argv[1]));
 	return (0);
 }
+
+/*
+I : je
+you (singular) : tu
+he/she/it : il/elle
+we : nous
+you (plural) : vous
+they : ils(b)/elles(g)/ils(mix)
+
+one : un
+two : deux
+three : trois
+four : quatre
+five : cinq
+six : six
+seven : sept
+eight : huit
+nine : neuf
+ten : dix */
