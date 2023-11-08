@@ -13,51 +13,7 @@
 #include "libft.h"
 #include <stdarg.h>
 
-int	ft_tag_id(int *i, char l1, char l2)
-{
-	if (l1 == 'd' || l1 == 'f' || l1 == 'c' || l1 == 's' || l1 == 'p'
-		|| l1 == 'x' || l1 == 'X' || l1 == 'o' || l1 == 'u' || l1 == 'i')
-	{
-		return (1);
-	}
-	else if ((l1 == 'l' && (l2 == 'd' || l2 == 'i')))
-	{
-		if (i)
-			*i = *i + 1;
-		return (2);
-	}
-	else if ((l1 == 'h' && (l2 == 'd' || l2 == 'i')))
-	{
-		if (i)
-			*i = *i + 1;
-		return (2);
-	}
-	else
-	{
-		if (i)
-			*i = *i - 1;
-		return (0);
-	}
-}
-
-int	ft_crop_and_lst(char *str, t_list **lst)
-{
-	int	j;
-	char	*temp_str;
-
-	j = 0;
-	while (str[j] && str[j] != '%')
-		j++;
-	temp_str = (char *) malloc((j + 1) * sizeof(char));
-	if (!temp_str)
-		return (0);
-	ft_strlcpy(temp_str, str, j + 1);
-	ft_lstadd_back(lst, ft_lstnew(temp_str));
-	free(temp_str);
-	return (j);
-}
-
-int ft_print_result(t_list **lst)
+int	ft_print_result(t_list **lst)
 {
 	int	nb_printed_chars;
 	int	i;
@@ -77,66 +33,111 @@ int ft_print_result(t_list **lst)
 	return (nb_printed_chars);
 }
 
-void	*ft_va_str(int arg, int tag_id)
+int	ft_str_to_lst(char *str, int i, t_list ***lst)
 {
-	return ("VAR");
+	char	*temp;
+	int		j;
+
+	if (str[0] == '%')
+	{
+		ft_lstadd_back(*lst, ft_lstnew("%"));
+		return (1);
+	}
+	j = 0;
+	while (str[i + j] && str[i + j] != '%')
+		j++;
+	temp = (char *)malloc((j + 1) * sizeof(char));
+	if (!temp)
+		return (0);
+	j = 0;
+	while (str[i] && str[i] != '%')
+	{
+		temp[j] = str[i];
+		i++;
+		j++;
+	}
+	temp[j] = '\0';
+	ft_lstadd_back(*lst, ft_lstnew(temp));
+	free(temp);
+	return (j - 1);
+}
+
+int ft_tag_format(char letter, char letter2)
+{
+	if (letter == '%')
+		return ('%');
+	else if (letter == 's' || letter == 'c' || letter == 'd' || letter == 'u'
+		|| letter == 'f' || letter == 'x' || letter == 'X' || letter == 'o')
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_str_analyser(char *str, int *i, t_list **lst, va_list arg)
+{
+	int	tag_format;
+ 
+	if (str[*i] == '%')
+	{
+		tag_format = ft_tag_format(str[*i + 1], str[*i + 2]); 
+		if (tag_format == '%')
+			*i += ft_str_to_lst("%", 0, &lst);
+		else if (tag_format == 1 || tag_format == 2)
+		{
+			// ft_tag_to_str();
+			// ft_str_to_str();
+			*i = *i + tag_format;
+		}
+		else
+			return (0);
+		return (1);
+	}
+	else
+		*i += ft_str_to_lst(str, *i, &lst);
+	return (1);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	int		i;
 	t_list	*lst;
 	va_list	arg;
+	int		i;
 
-	i = -1;
-	lst = ft_lstnew("");
 	va_start(arg, str);
-	while (str[++i])
+	lst = ft_lstnew("");
+	i = 0;
+	while (str[i])
 	{
-		if (str[i] == '%')
+		if (!ft_str_analyser((char *) str, &i, &lst, arg))
 		{
-			// here, have to do something
-			if (str[++i] == '%')
-				ft_lstadd_back(&lst, ft_lstnew("%"));
-			else if (ft_tag_id(NULL, str[i], str[i + 1]))
-			{
-				// here have to handle the adress of va_arg returned value
-				// but lack of line space (maybe just 2 more).
-				ft_lstadd_back(&lst, ft_lstnew(ft_va_str(va_arg(arg, int),
-					(ft_tag_id(&i, str[i], str[i + 1])))));
-			}
-			else
-				return(write(1, "TAG-ERROR", 9));
+			va_end(arg);
+			return (0);
 		}
-		else
-			i += ft_crop_and_lst((char *)&str[i], &lst) - 1;
+		i++;
 	}
 	va_end(arg);
 	return (ft_print_result(&lst));
 }
+	// 	{
+	// 		if (str[++i] == '%')
+	// 			ft_lstadd_back(&lst, ft_lstnew("%"));
+	// 		else if (ft_tag_id(NULL, str[i], str[i + 1]))
+	// 		{
+	// 			ptr = va_arg(arg, int);
+	// 			ft_lstadd_back(&lst, ft_lstnew(ft_va_to_str(&ptr, ft_tag_id(&i,
+	// 							str[i], str[i + 1]), (char *) &str[i])));
+	// 		}
+	// 		else
+	// 			return (write(1, "TAG-ERROR", 9));
+	// 	}
+	// 	else
+	// 		i += ft_crop_and_lst((char *)&str[i], &lst) - 1;
+	// }
 
 int	main(int argc, char *argv[])
 {
 	if (argc == 2)
-		printf("\n%d\n", ft_printf(argv[1]));
+		printf("----> %d printed chars.",
+			ft_printf(argv[1], 20, "Alexandre", 'a'));
 	return (0);
 }
-
-/*
-I : je
-you (singular) : tu
-he/she/it : il/elle
-we : nous
-you (plural) : vous
-they : ils(b)/elles(g)/ils(mix)
-
-one : un
-two : deux
-three : trois
-four : quatre
-five : cinq
-six : six
-seven : sept
-eight : huit
-nine : neuf
-ten : dix */
