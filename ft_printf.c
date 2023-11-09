@@ -62,15 +62,51 @@ int	ft_str_to_lst(char *str, int i, t_list ***lst)
 	return (j - 1);
 }
 
-int ft_tag_format(char letter, char letter2)
+int ft_tag_format(char letter, char letter2, char letter3)
 {
 	if (letter == '%')
 		return ('%');
 	else if (letter == 's' || letter == 'c' || letter == 'd' || letter == 'u'
-		|| letter == 'f' || letter == 'x' || letter == 'X' || letter == 'o')
+		|| letter == 'f' || letter == 'x' || letter == 'X' || letter == 'o')		// missing some cases here
 		return (1);
+	else if (letter == 'l' || letter == 'h')
+	{
+		if (letter2 == 'l')
+		{
+			if (letter3 == 'd' || letter3 == 'i')
+				return (3);
+			else
+				return (0);
+		}
+		else if (letter2 == 'd' || letter2 == 'i')
+			return(2);
+		else
+			return (0);
+	}
 	else
 		return (0);
+}
+
+char	*ft_char_to_str(int c, int size)
+{
+	char	*str;
+
+	str = (char *)malloc((size + 1) * sizeof(char));
+	if (!str)
+		return ("");
+	str[size] = '\0';
+	while (size--)
+		str[size] = c;
+	return (str);
+}
+
+void	ft_tag_to_str(int tag_format, va_list arg, t_list ***lst, char *str)
+{
+	if (tag_format == 1)
+	{
+		if (str[1] == 'c')
+			ft_str_to_lst(ft_char_to_str(va_arg(arg, int), 1), 0, lst);
+	}
 }
 
 int	ft_str_analyser(char *str, int *i, t_list **lst, va_list arg)
@@ -79,17 +115,16 @@ int	ft_str_analyser(char *str, int *i, t_list **lst, va_list arg)
  
 	if (str[*i] == '%')
 	{
-		tag_format = ft_tag_format(str[*i + 1], str[*i + 2]); 
+		tag_format = ft_tag_format(str[*i + 1], str[*i + 2], str[*i + 3]); 
 		if (tag_format == '%')
 			*i += ft_str_to_lst("%", 0, &lst);
-		else if (tag_format == 1 || tag_format == 2)
+		else if (!tag_format)
+			return (0);
+		else
 		{
-			// ft_tag_to_str();
-			// ft_str_to_str();
+			ft_tag_to_str(tag_format, arg, &lst, &str[*i]);
 			*i = *i + tag_format;
 		}
-		else
-			return (0);
 		return (1);
 	}
 	else
@@ -118,26 +153,11 @@ int	ft_printf(const char *str, ...)
 	va_end(arg);
 	return (ft_print_result(&lst));
 }
-	// 	{
-	// 		if (str[++i] == '%')
-	// 			ft_lstadd_back(&lst, ft_lstnew("%"));
-	// 		else if (ft_tag_id(NULL, str[i], str[i + 1]))
-	// 		{
-	// 			ptr = va_arg(arg, int);
-	// 			ft_lstadd_back(&lst, ft_lstnew(ft_va_to_str(&ptr, ft_tag_id(&i,
-	// 							str[i], str[i + 1]), (char *) &str[i])));
-	// 		}
-	// 		else
-	// 			return (write(1, "TAG-ERROR", 9));
-	// 	}
-	// 	else
-	// 		i += ft_crop_and_lst((char *)&str[i], &lst) - 1;
-	// }
 
 int	main(int argc, char *argv[])
 {
 	if (argc == 2)
-		printf("----> %d printed chars.",
-			ft_printf(argv[1], 20, "Alexandre", 'a'));
+		printf("--> %d printed chars.",
+			ft_printf(argv[1], 'a', 'c', 48));
 	return (0);
 }
