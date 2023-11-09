@@ -13,19 +13,19 @@
 #include "libft.h"
 #include <stdarg.h>
 
-int	ft_print_result(t_list **lst)
+int	ft_print_result(t_list *lst)
 {
 	int	nb_printed_chars;
 	int	i;
 
 	nb_printed_chars = 0;
-	while ((*lst)->next)
+	while (lst->next)
 	{
-		*lst = (*lst)->next;
+		lst = lst->next;
 		i = 0;
-		while (((char *)(*lst)->content)[i])
+		while (((char *)lst->content)[i])
 		{
-			write(1, &((char *)(*lst)->content)[i], 1);
+			write(1, &((char *)lst->content)[i], 1);
 			i++;
 		}
 		nb_printed_chars += i;
@@ -33,58 +33,9 @@ int	ft_print_result(t_list **lst)
 	return (nb_printed_chars);
 }
 
-int	ft_str_to_lst(char *str, int i, t_list ***lst)
+int ft_tag_format(char *str, int i)
 {
-	char	*temp;
-	int		j;
 
-	if (str[0] == '%')
-	{
-		ft_lstadd_back(*lst, ft_lstnew("%"));
-		return (1);
-	}
-	j = 0;
-	while (str[i + j] && str[i + j] != '%')
-		j++;
-	temp = (char *)malloc((j + 1) * sizeof(char));
-	if (!temp)
-		return (0);
-	j = 0;
-	while (str[i] && str[i] != '%')
-	{
-		temp[j] = str[i];
-		i++;
-		j++;
-	}
-	temp[j] = '\0';
-	ft_lstadd_back(*lst, ft_lstnew(temp));
-	free(temp);
-	return (j - 1);
-}
-
-int ft_tag_format(char letter, char letter2, char letter3)
-{
-	if (letter == '%')
-		return ('%');
-	else if (letter == 's' || letter == 'c' || letter == 'd' || letter == 'u'
-		|| letter == 'f' || letter == 'x' || letter == 'X' || letter == 'o')		// missing some cases here
-		return (1);
-	else if (letter == 'l' || letter == 'h')
-	{
-		if (letter2 == 'l')
-		{
-			if (letter3 == 'd' || letter3 == 'i')
-				return (3);
-			else
-				return (0);
-		}
-		else if (letter2 == 'd' || letter2 == 'i')
-			return(2);
-		else
-			return (0);
-	}
-	else
-		return (0);
 }
 
 char	*ft_char_to_str(int c, int size)
@@ -100,35 +51,37 @@ char	*ft_char_to_str(int c, int size)
 	return (str);
 }
 
-void	ft_tag_to_str(int tag_format, va_list arg, t_list ***lst, char *str)
+char	*ft_tag_to_str(va_list arg, int *i, char *str)
 {
-	if (tag_format == 1)
-	{
-		if (str[1] == 'c')
-			ft_str_to_lst(ft_char_to_str(va_arg(arg, int), 1), 0, lst);
-	}
+	return (0);
 }
 
-int	ft_str_analyser(char *str, int *i, t_list **lst, va_list arg)
+int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 {
-	int	tag_format;
- 
+	char	*ptr;
+
 	if (str[*i] == '%')
 	{
-		tag_format = ft_tag_format(str[*i + 1], str[*i + 2], str[*i + 3]); 
-		if (tag_format == '%')
-			*i += ft_str_to_lst("%", 0, &lst);
-		else if (!tag_format)
-			return (0);
-		else
+		if (str[*i + 1] == '%')
+			ft_lstadd_back(&lst, ft_lstnew("%"));
+		else 
 		{
-			ft_tag_to_str(tag_format, arg, &lst, &str[*i]);
-			*i = *i + tag_format;
+			ptr  = ft_tag_to_str(arg, lst, i, str);
+			if (!ptr)
+				return (0);
+			ft_lstadd_back(&lst, ft_lstnew(ptr));
+			free(ptr);
 		}
-		return (1);
+		(*i)++;
 	}
 	else
-		*i += ft_str_to_lst(str, *i, &lst);
+	{
+		ptr = ft_char_to_str(str[*i], 1);
+		if (!ptr)
+			return (0);
+		ft_lstadd_back(&lst, ft_lstnew(ptr));
+		free(ptr);
+	}
 	return (1);
 }
 
@@ -143,15 +96,19 @@ int	ft_printf(const char *str, ...)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_str_analyser((char *) str, &i, &lst, arg))
+		printf("%d-", i);
+		if (!ft_str_analyser((char *) str, &i, lst, arg))
 		{
+			ft_lstclear(&lst, free);
 			va_end(arg);
 			return (0);
 		}
 		i++;
 	}
 	va_end(arg);
-	return (ft_print_result(&lst));
+	i = ft_print_result(lst);
+	ft_lstclear(&lst, free);
+	return (i);
 }
 
 int	main(int argc, char *argv[])
