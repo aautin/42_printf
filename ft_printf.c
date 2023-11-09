@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdarg.h>
+#include "ft_printf.h"
+
 
 int	ft_print_result(t_list *lst)
 {
@@ -33,28 +33,6 @@ int	ft_print_result(t_list *lst)
 	return (nb_printed_chars);
 }
 
-int ft_tag_format(char *str, int i)
-{
-
-}
-
-char	*ft_char_to_str(int c, int size)
-{
-	char	*str;
-
-	str = (char *)malloc((size + 1) * sizeof(char));
-	if (!str)
-		return ("");
-	str[size] = '\0';
-	while (size--)
-		str[size] = c;
-	return (str);
-}
-
-char	*ft_tag_to_str(va_list arg, int *i, char *str)
-{
-	return (0);
-}
 
 int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 {
@@ -66,7 +44,7 @@ int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 			ft_lstadd_back(&lst, ft_lstnew("%"));
 		else 
 		{
-			ptr  = ft_tag_to_str(arg, lst, i, str);
+			ptr  = ft_tag_to_str(arg, i, str);
 			if (!ptr)
 				return (0);
 			ft_lstadd_back(&lst, ft_lstnew(ptr));
@@ -76,7 +54,7 @@ int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 	}
 	else
 	{
-		ptr = ft_char_to_str(str[*i], 1);
+		ptr = ft_ctoa(str[*i], 1);
 		if (!ptr)
 			return (0);
 		ft_lstadd_back(&lst, ft_lstnew(ptr));
@@ -96,7 +74,6 @@ int	ft_printf(const char *str, ...)
 	i = 0;
 	while (str[i])
 	{
-		printf("%d-", i);
 		if (!ft_str_analyser((char *) str, &i, lst, arg))
 		{
 			ft_lstclear(&lst, free);
@@ -115,6 +92,6 @@ int	main(int argc, char *argv[])
 {
 	if (argc == 2)
 		printf("--> %d printed chars.",
-			ft_printf(argv[1], 'a', 'c', 48));
+			ft_printf(argv[1], 48, 48.2, "oui"));
 	return (0);
 }
