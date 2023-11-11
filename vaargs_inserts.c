@@ -12,52 +12,73 @@
 
 #include "ft_printf.h"
 
-char	ft_tag_format(char *str, int i)
+void	ft_putnbr_len(int n, int *printed)
 {
-	if (str[i + 1] == 'c' || str[i + 1] == 's' || str[i + 1] == 'd'
-		|| str[i + 1] == 'f' || str[i + 1] == 'u' || str[i + 1] == 'x'
-		|| str[i + 1] == 'X' || str[i + 1] == 'o' || str[i + 1] == 'p'
-		|| str[i + 1] == 'e' || str[i + 1] == 'E' || str[i + 1] == 'g'
-		|| str[i + 1] == 'i')
-		return (1);
-	if (str[i + 1] == 'l' || str[i + 1] == 'h')
+	if (9 < n)
 	{
-		if (str[i + 2] == 'i' || str[i + 2] == 'd')
-			return (2);
-		if (str[i + 2] == 'l')
-		{
-			if (str[i + 3] == 'd' || str[i + 3] == 'i')
-				return (3);
-			return (0);
-		}
-		return (0);
+		ft_putnbr_len(n / 10, printed);
+		ft_putchar_len((n % 10) + 48, printed);
 	}
-	return (0);
+	else if (n < 0)
+	{
+		ft_putchar_len('-', printed);
+		if (-10 >= n)
+			ft_putnbr_len((-(n / 10)), printed);
+		ft_putchar_len(-(n % 10) + 48, printed);
+	}
+	if (0 <= n && n <= 9)
+		ft_putchar_len((n % 10) + 48, printed);
 }
 
-char	*ft_vaarg_to_str(va_list arg, char tag, char tag_sz)
+void	ft_putunsign_len(unsigned int n, int *printed)
 {
-	if (tag_sz == 1 && tag == 'c')
-		return (ft_ctoa(va_arg(arg, int), 1));
-	if (tag_sz == 1 && (tag == 'd' || tag == 'i'))
-		return (ft_itoa(va_arg(arg, int)));
-	if (tag_sz == 1 && tag == 's')
-		return (ft_strdup(va_arg(arg, char *)));
-	if (tag_sz == 1 && tag == 'f')
+	if (9 < n)
 	{
-		double number = (double) va_arg(arg, double);
-		printf("%ld", number);
-		return (ft_ftoa((float) va_arg(arg, double)));
+		ft_putunsign_len(n / 10, printed);
+		ft_putchar_len((n % 10) + 48, printed);
 	}
-	return (NULL);
+	else if (n < 0)
+	{
+		ft_putchar_len('-', printed);
+		if (-10 >= n)
+			ft_putunsign_len((-(n / 10)), printed);
+		ft_putchar_len(-(n % 10) + 48, printed);
+	}
+	if (0 <= n && n <= 9)
+		ft_putchar_len((n % 10) + 48, printed);
 }
 
-char	*ft_tag_to_str(va_list arg, int *i, char *str)
+void	ft_putstr_len(char *str, int *printed)
 {
-	char	tag_id;
+	int	i;
 
-	tag_id = ft_tag_format(str, *i);
-	if (!tag_id)
-		return (NULL);
-	return (ft_vaarg_to_str(arg, str[*i + 1], tag_id));
+	i = 0;
+	while (str[i])
+	{
+		ft_putchar_len(str[i], printed);
+		i++;
+	}
+}
+
+void	ft_puthexa_len(unsigned long nb, int *printed, int maj)
+{
+	char	*hexabase;
+
+	if (maj)
+		hexabase = "012345689ABCDEF";
+	else
+		hexabase = "012345689abcdef";
+	if (nb > 16)
+	{
+		ft_puthexa_len(nb / 16, printed, maj);
+		ft_putchar_len(hexabase[nb % 16], printed);
+	}
+	else
+		ft_puthexa_len(hexabase[nb % 16], printed, maj);
+}
+
+void	ft_putptr_len(unsigned long adress, int *printed)
+{
+	ft_putstr_len("0x", printed);
+	ft_puthexa_len(adress, printed, 0);
 }
