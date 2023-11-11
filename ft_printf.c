@@ -12,7 +12,6 @@
 
 #include "ft_printf.h"
 
-
 int	ft_print_result(t_list *lst)
 {
 	int	nb_printed_chars;
@@ -33,7 +32,6 @@ int	ft_print_result(t_list *lst)
 	return (nb_printed_chars);
 }
 
-
 int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 {
 	char	*ptr;
@@ -42,9 +40,9 @@ int	ft_str_analyser(char *str, int *i, t_list *lst, va_list arg)
 	{
 		if (str[*i + 1] == '%')
 			ft_lstadd_back(&lst, ft_lstnew("%"));
-		else 
+		else
 		{
-			ptr  = ft_tag_to_str(arg, i, str);
+			ptr = ft_tag_to_str(arg, i, str);
 			if (!ptr)
 				return (0);
 			ft_lstadd_back(&lst, ft_lstnew(ptr));
@@ -92,6 +90,6 @@ int	main(int argc, char *argv[])
 {
 	if (argc == 2)
 		printf("--> %d printed chars.",
-			ft_printf(argv[1], 48, 48.2, "oui"));
+			ft_printf(argv[1], 48.2009364));
 	return (0);
 }
