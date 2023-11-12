@@ -38,14 +38,7 @@ void	ft_putunsign_len(unsigned int n, int *printed)
 		ft_putunsign_len(n / 10, printed);
 		ft_putchar_len((n % 10) + 48, printed);
 	}
-	else if (n < 0)
-	{
-		ft_putchar_len('-', printed);
-		if (-10 >= n)
-			ft_putunsign_len((-(n / 10)), printed);
-		ft_putchar_len(-(n % 10) + 48, printed);
-	}
-	if (0 <= n && n <= 9)
+	if (n <= 9)
 		ft_putchar_len((n % 10) + 48, printed);
 }
 
