@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <unistd.h>
 
 void	ft_putnbr_len(int n, int *printed)
 {
@@ -60,7 +61,7 @@ void	ft_putstr_len(char *str, int *printed)
 	}
 }
 
-void	ft_puthexa_len(unsigned long nb, int *printed, int maj)
+void	ft_puthexa_len(unsigned long long nb, int *printed, int maj)
 {
 	char	*hexabase;
 
@@ -68,17 +69,24 @@ void	ft_puthexa_len(unsigned long nb, int *printed, int maj)
 		hexabase = "012345689ABCDEF";
 	else
 		hexabase = "012345689abcdef";
-	if (nb > 16)
-	{
-		ft_puthexa_len(nb / 16, printed, maj);
+	if (nb <= 15)
 		ft_putchar_len(hexabase[nb % 16], printed);
-	}
 	else
-		ft_puthexa_len(hexabase[nb % 16], printed, maj);
+	{
+		ft_putchar_len(hexabase[nb % 16], printed);
+		ft_puthexa_len(nb / 16, printed, maj);
+	}
 }
 
-void	ft_putptr_len(unsigned long adress, int *printed)
+void	ft_putptr_len(unsigned long long adress, int *printed)
 {
-	ft_putstr_len("0x", printed);
-	ft_puthexa_len(adress, printed, 0);
+	if (!adress)
+	{
+		ft_putstr_len("(nil)", printed);
+	}
+	else
+	{
+		ft_putstr_len("0x", printed);
+		ft_puthexa_len(adress, printed, 0);
+	}
 }

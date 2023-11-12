@@ -31,7 +31,7 @@ static void	ft_vaarg(const char *str, va_list args, int *printed)
 	else if (*str == 'X')
 		ft_puthexa_len(va_arg(args, unsigned int), printed, 1);
 	else if (*str == 'p')
-		ft_putptr_len(va_arg(args, unsigned long), printed);
+		ft_putptr_len(va_arg(args, unsigned long long), printed);
 	else if (*str == 'u')
 		ft_putunsign_len(va_arg(args, unsigned int), printed);
 	else if (*str == '%')
@@ -59,11 +59,12 @@ int	ft_printf(const char *str, ...)
 
 int	main(int argc, char *argv[])
 {
+	int	i = 6;
 	if (argc == 2)
 	{
-		ft_printf(argv[1], argv, 48, 48, "oui");
+		printf("%d", printf(argv[1], &i, NULL, NULL, "oui"));
 		printf("|\n");
-		printf(argv[1], argv, 48, 48, "oui");
+		printf("%d", ft_printf(argv[1], &i, NULL, NULL, "oui"));
 	}
 	return (0);
 }

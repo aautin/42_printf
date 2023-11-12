@@ -21,8 +21,8 @@ void	ft_putchar_len(int a, int *printed);
 void	ft_putnbr_len(int nb, int *printed);
 void	ft_putunsign_len(unsigned int n, int *printed);
 void	ft_putstr_len(char *str, int *printed);
-void	ft_putptr_len(unsigned long adress, int *printed);
-void	ft_puthexa_len(unsigned long nb, int *printed, int maj);
+void	ft_putptr_len(unsigned long long adress, int *printed);
+void	ft_puthexa_len(unsigned long long nb, int *printed, int maj);
 int		ft_printf(const char *str, ...);
 
 #endif
