@@ -1,6 +1,6 @@
 NAME	=	libftprintf.a
 
-LDFLAGS	=	-L/home/aautin/Code/ft_printf/
+LDFLAGS	=	-L/home/aautin/Code/ft_printf/libft
 
 LDLIBS	+=	-lft
 
@@ -14,10 +14,9 @@ CC		=	cc
 CFLAGS	+=	-Wall -Werror -Wextra
 
 $(NAME)	:	$(OBJS)
-			$(CC) -o $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
-			ar rcs $@ $(OBJS)
+			ar rcs $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
 
-%.o		:	%.c
+%.o		: 	%.c
 			$(CC) -c -o $@ $< $(CFLAGS)
 
 all		:	$(NAME)
