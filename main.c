@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aautin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
+#include <stdio.h>
 
-# include <stdarg.h>
-# include "libft.h"
-
-void	ft_putchar_len(int a, int *printed);
-void	ft_putnbr_len(int nb, int *printed);
-void	ft_putunsign_len(unsigned int n, int *printed);
-void	ft_putstr_len(char *str, int *printed);
-void	ft_putptr_len(unsigned long long adress, int *printed);
-void	ft_puthexa_len(unsigned long long nb, int *printed, int maj);
-int		ft_printf(const char *str, ...);
-
-#endif
+int	main(int argc, char *argv[])
+{
+	int	i = 6;
+	if (argc == 2)
+	{
+		printf("|%d|", printf(argv[1], &i, NULL, NULL, "oui"));
+		printf("|\n");
+		printf("|%d|", ft_printf(argv[1], &i, NULL, NULL, "oui"));
+	}
+	return (0);
+}

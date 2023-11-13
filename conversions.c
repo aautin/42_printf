@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   conversions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aautin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <unistd.h>
 
 void	ft_putnbr_len(int n, int *printed)
 {
@@ -59,24 +58,22 @@ void	ft_puthexa_len(unsigned long long nb, int *printed, int maj)
 	char	*hexabase;
 
 	if (maj)
-		hexabase = "012345689ABCDEF";
+		hexabase = "0123456789ABCDEF";
 	else
-		hexabase = "012345689abcdef";
-	if (nb <= 15)
-		ft_putchar_len(hexabase[nb % 16], printed);
+		hexabase = "0123456789abcdef";
+	if (nb < 16)
+		ft_putchar_len(hexabase[nb], printed);
 	else
 	{
-		ft_putchar_len(hexabase[nb % 16], printed);
 		ft_puthexa_len(nb / 16, printed, maj);
+		ft_putchar_len(hexabase[nb % 16], printed);
 	}
 }
 
 void	ft_putptr_len(unsigned long long adress, int *printed)
 {
 	if (!adress)
-	{
 		ft_putstr_len("(nil)", printed);
-	}
 	else
 	{
 		ft_putstr_len("0x", printed);

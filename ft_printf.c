@@ -56,15 +56,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (printed_chars);
 }
-
-int	main(int argc, char *argv[])
-{
-	int	i = 6;
-	if (argc == 2)
-	{
-		printf("%d", printf(argv[1], &i, NULL, NULL, "oui"));
-		printf("|\n");
-		printf("%d", ft_printf(argv[1], &i, NULL, NULL, "oui"));
-	}
-	return (0);
-}
