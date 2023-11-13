@@ -45,11 +45,16 @@ void	ft_putstr_len(char *str, int *printed)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
+	if (!str)
+		ft_putstr_len("(null)", printed);
+	else
 	{
-		ft_putchar_len(str[i], printed);
-		i++;
+		i = 0;
+		while (str[i])
+		{
+			ft_putchar_len(str[i], printed);
+			i++;
+		}
 	}
 }
 

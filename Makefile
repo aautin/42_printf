@@ -1,9 +1,5 @@
 NAME	=	libftprintf.a
 
-LDFLAGS	=	-L/home/aautin/Code/ft_printf/libft
-
-LDLIBS	+=	-lft
-
 SRCS	=	ft_printf.c		\
 			conversions.c
 
@@ -14,10 +10,10 @@ CC		=	cc
 CFLAGS	+=	-Wall -Werror -Wextra
 
 $(NAME)	:	$(OBJS)
-			ar rcs $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
+			ar rcs $@ $(OBJS)
 
 %.o		: 	%.c
-			$(CC) -c -o $@ $< $(CFLAGS)
+			$(CC) $(CFLAGS) -c $< -o $@ 
 
 all		:	$(NAME)
 
@@ -29,5 +25,4 @@ clean	:
 fclean	:	clean
 			$(RM) $(NAME)	
 
-re		:	fclean 
-			make
+re		:	fclean all

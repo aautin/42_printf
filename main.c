@@ -15,12 +15,14 @@
 
 int	main(int argc, char *argv[])
 {
-	int	i = 6;
+	int	i;
+
+	i = 6;
 	if (argc == 2)
 	{
-		printf("|%d|", printf(argv[1], &i, NULL, NULL, "oui"));
+		printf("|%d|", printf(" NULL %s NULL ", NULL));
 		printf("|\n");
-		printf("|%d|", ft_printf(argv[1], &i, NULL, NULL, "oui"));
+		printf("|%d|", ft_printf(" NULL %s NULL ", NULL));
 	}
 	return (0);
 }
