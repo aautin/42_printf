@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 void	ft_putchar_len(int a, int *printed);
 void	ft_putnbr_len(int nb, int *printed);
