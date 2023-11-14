@@ -1,26 +1,36 @@
 NAME	=	libftprintf.a
 
-SRCS	=	ft_printf.c		\
+EXEC	=	prgm
+
+LIB		=	../libft/libft.a
+
+SRC		=	ft_printf.c		\
 			conversions.c
 
-OBJS	=	$(SRCS:.c=.o)
+OBJ		=	$(SRC:.c=.o)
 
 CC		=	cc
 
 CFLAGS	+=	-Wall -Werror -Wextra
 
-$(NAME)	:	$(OBJS)
-			ar rcs $@ $(OBJS)
+$(LIB)	:
+			cd libft && make
+
+$(NAME)	:	$(OBJ)
+			ar -rc -o $@ $(OBJ) -L/libft
 
 %.o		: 	%.c
 			$(CC) $(CFLAGS) -c $< -o $@ 
 
-all		:	$(NAME)
+all		:	$(LIB) $(NAME)
 
 .PHONY	:	all clean fclean re
 
 clean	:
-			$(RM) $(OBJS) $(OBJS_BONUS)
+			$(RM) $(OBJ)
+
+prgm	:	$(LIB) $(NAME)
+			$(CC) $(CFLAGS) -o $(EXEC) $(LIB) -L/libft $(NAME)
 
 fclean	:	clean
 			$(RM) $(NAME)	
