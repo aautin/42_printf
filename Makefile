@@ -1,7 +1,5 @@
 NAME	=	libftprintf.a
 
-LIB		=	libft.a
-
 EXEC	=	prgm
 
 SRC		=	ft_printf.c		\
@@ -12,11 +10,11 @@ SRC_B	=	ft_printf_b.c	\
 
 MAIN	=	main.c
 
-MAIN	=	main_b.c
+MAIN_B	=	main_b.c
 
 OBJ		=	$(SRC:.c=.o)
 
-OBJ_B		=	$(SRC_B:.c=.o)
+OBJ_B	=	$(SRC_B:.c=.o)
 
 CC		=	cc
 
@@ -40,10 +38,13 @@ bonus	:	$(OBJ_B)
 all		:	$(NAME)
 
 clean	:
-			$(RM) $(OBJ)
+			$(RM) $(OBJ) $(OBJ_B)
 
 prgm	:	all
-			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME) $(LIB)
+			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME)
+
+prgm_b	:	bonus
+			$(CC) $(CFLAGS) $(MAIN_B) -o $(EXEC) -L. $(NAME)
 
 fclean	:	clean
 			$(RM) $(NAME) $(EXEC)
