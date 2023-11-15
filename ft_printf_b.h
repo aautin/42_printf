@@ -16,7 +16,12 @@
 # include "libft/libft.h"
 # include <stdarg.h>
 
-char	*ft_c_to_str(char c);
+int		ft_ctype(t_list *lst, va_list vaarg, char *s);
+char	*ft_c_to_str(char c, int nb);
+
+int		ft_tag(t_list *lst, va_list vaarg, char *s);
+int		ft_tag_type(char *s);
+int		ft_printlst(t_list *lst);
 int		ft_printf(const char *s, ...);
 
 #endif

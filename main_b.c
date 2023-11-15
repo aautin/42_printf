@@ -15,15 +15,20 @@
 
 int	main(int argc, char *argv[])
 {
-	(void) argc;
-	(void) argv;
-	
-	char myChar = 'A';
+	// (void) argc;
+	// (void) argv;
 
-    printf("%c\n", myChar);    // A (no padding, no width specified)
-    printf("%5c\n", myChar);   //    A (width specified as 5, padding added)
-    printf("%-5c|\n", myChar);  // A    | (left-justified in a width of 5, padding added)
-    printf("%10c|\n", myChar);
+	// char myChar = 'A';
 
+	// printf("%c|\n", myChar);    // A (no padding, no width specified)
+	// printf("%-1c|\n", myChar);   //    A (width specified as 5, padding added)
+	// printf("%-2c|\n", myChar);  // A    | (left-justified in a width of 5, padding added)
+	// printf("%-c|\n", myChar);
+
+	if (argc == 2)
+	{
+		printf("|%d|\n", ft_printf(argv[1], 'a', 'b'));
+		printf("|%d|\n", printf(argv[1], 'a', 'b'));
+	}
 	return (0);
 }

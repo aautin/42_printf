@@ -12,45 +12,57 @@
 
 #include "ft_printf_b.h"
 
-char	*ft_c_to_str(char c)
+char	*ft_c_to_str(char c, int nb)
 {
 	char	*str;
+	
 
-	str = (char *)malloc(2 * sizeof(char));
+	str = (char *)malloc((nb + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
-	str[0] = c;
-	str[1] = '\0';
+	ft_memset(str, c, nb);
+	str[nb] = '\0';
 	return (str);
 }
 
-int		ft_printlst(void)
+int		ft_printlst(t_list *lst)
 {
-	return (0);
+	int	i;
+	int printed_chars;
+
+	printed_chars = 0;
+	while (lst)
+	{
+		i = 0;
+		while (((char *) lst->content)[i])
+		{
+			ft_putchar_fd(((char *) lst->content)[i], 1);
+			i++;
+		}
+		printed_chars += i;
+		lst = lst->next;
+	}
+	return (printed_chars);
 }
 
 int		ft_printf(const char *s, ...)
 {
-	int		printed_chars;
 	va_list	vaarg;
 	t_list	*lst;
+	int		i;
 
-	printed_chars = 0;
 	va_start(vaarg, s);
-	lst = ft_lstnew("");
 	while (*s)
 	{
 		if (*s == '%' && *(s + 1) != '\0')
 		{
-			break ;
+			i = ft_tag(lst, vaarg, (char *) ++s);
+			s = s + i;
 		}
 		else
-		{
-			ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(*s)));
-		}
+			ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(*s, 1)));
 		s++;
 	}
-	
 	va_end(vaarg);
-	return (0);
+	return (ft_printlst(lst));
 }
