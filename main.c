@@ -20,9 +20,9 @@ int	main(int argc, char *argv[])
 	i = 6;
 	if (argc == 2)
 	{
-		printf("|%d|", printf(" NULL %s NULL ", NULL));
-		printf("|\n");
-		printf("|%d|", ft_printf(" NULL %s NULL ", NULL));
+		printf("|%d|", printf(" biqwehr %c %d %s NULL %p", 48, 48, (char *) NULL, argv[1]));
+		printf("\n");
+		printf("|%d|", ft_printf(" biqwehr %c %d %s NULL %p", 48, 48,  (char *) NULL, argv[1]));
 	}
 	return (0);
 }

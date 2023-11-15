@@ -1,11 +1,13 @@
 NAME	=	libftprintf.a
 
-EXEC	=	prgm
+LIB		=	libft.a
 
-LIB		=	libft/libft.a
+EXEC	=	prgm
 
 SRC		=	ft_printf.c		\
 			conversions.c
+
+MAIN	=	main.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -13,35 +15,28 @@ CC		=	cc
 
 CFLAGS	+=	-Wall -Werror -Wextra
 
-$(LIB)	:
-			make -C libft
+RM		=	rm -f
 
 $(NAME)	:	$(OBJ)
-			@echo 'test'
-			ar -rc -o $@ $(OBJ)  -l ft 
+			make -C libft
+			cp libft/libft.a $(NAME)
+			ar -q $(NAME) $(OBJ)
 
 %.o		: 	%.c
-			$(CC) $(CFLAGS) -c $< -o $@ -I libft
+			$(CC) $(CFLAGS) -c $< -o $@
 
-all		:	$(LIB) $(NAME)
+all		:	$(NAME)
+			echo "test"
 
 clean	:
 			$(RM) $(OBJ)
 
-lclean	:
-			$(RM) $(OBJ)
-			make -C libft clean
-
 prgm	:	all
-			$(CC) $(CFLAGS) -o $(EXEC) $(NAME) -Llibft -lft
+			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME) $(LIB)
 
 fclean	:	clean
-			$(RM) $(NAME)
-
-lfclean	:	lclean
-			$(RM) $(NAME)
-			make -C libft fclean
+			$(RM) $(NAME) $(EXEC) $(LIB)
 
 re		:	fclean all
 
-.PHONY	:	all libft prgm clean fclean re lfclean fclean
+.PHONY	:	all prgm clean fclean re lfclean fclean
