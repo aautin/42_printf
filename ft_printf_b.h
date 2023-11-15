@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
+# include <stdio.h> // to DELETE !!!
 
 int		ft_ctype(t_list *lst, va_list vaarg, char *s);
 char	*ft_c_to_str(char c, int nb);

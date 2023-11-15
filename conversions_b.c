@@ -36,6 +36,14 @@ int	ft_ctype(t_list *lst, va_list vaarg, char *s)
 		ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(va_arg(vaarg, int), 1)));
 		return (1);
 	}
+	else if (*s == '-' && '1' <= *(s + 1) && *(s + 1) <= '9')
+	{
+		// work from there
+	}
+	else if ('1' <= *s && *s <= '9')
+	{
+		// work from there
+	}
 	return (0);
 }
 

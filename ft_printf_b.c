@@ -49,16 +49,13 @@ int		ft_printf(const char *s, ...)
 {
 	va_list	vaarg;
 	t_list	*lst;
-	int		i;
 
 	va_start(vaarg, s);
+	lst = ft_lstnew("");
 	while (*s)
 	{
 		if (*s == '%' && *(s + 1) != '\0')
-		{
-			i = ft_tag(lst, vaarg, (char *) ++s);
-			s = s + i;
-		}
+			s += ft_tag(lst, vaarg, (char *) (s + 1)) + 1;
 		else
 			ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(*s, 1)));
 		s++;
