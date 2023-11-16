@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:47:36 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/15 15:27:28 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/16 15:36:59 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdarg.h>
 # include <stdio.h> // to DELETE !!!
 
+int		ft_c_leftpad(char *s, t_list *lst, va_list vaarg);
+int		ft_c_rightpad(char *s, t_list *lst, va_list vaarg);
 int		ft_ctype(t_list *lst, va_list vaarg, char *s);
 char	*ft_c_to_str(char c, int nb);
 

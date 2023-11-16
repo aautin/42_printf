@@ -6,7 +6,8 @@ SRC		=	ft_printf.c		\
 			conversions.c
 
 SRC_B	=	ft_printf_b.c	\
-			conversions_b.c
+			conversions_b.c	\
+			ft_char_b.c
 
 MAIN	=	main.c
 
@@ -41,7 +42,7 @@ clean	:
 			$(RM) $(OBJ) $(OBJ_B)
 
 prgm	:	all
-			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME)
+			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME) -c
 
 prgm_b	:	bonus
 			$(CC) $(CFLAGS) $(MAIN_B) -o $(EXEC) -L. $(NAME)
