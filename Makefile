@@ -5,13 +5,11 @@ EXEC	=	prgm
 SRC		=	ft_printf.c		\
 			conversions.c
 
-SRC_B	=	ft_printf_b.c	\
-			conversions_b.c	\
-			ft_char_b.c
+SRC_B	=	bonus_ft_printf.c	\
 
 MAIN	=	main.c
 
-MAIN_B	=	main_b.c
+MAIN_B	=	bonus_main.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -42,10 +40,10 @@ clean	:
 			$(RM) $(OBJ) $(OBJ_B)
 
 prgm	:	all
-			$(CC) $(CFLAGS) $(MAIN) -o $(EXEC) -L. $(NAME) -c
+			$(CC) $(MAIN) -o $(EXEC) -L. $(NAME)
 
 prgm_b	:	bonus
-			$(CC) $(CFLAGS) $(MAIN_B) -o $(EXEC) -L. $(NAME)
+			$(CC) $(MAIN_B) -o $(EXEC) -L. $(NAME)
 
 fclean	:	clean
 			$(RM) $(NAME) $(EXEC)
