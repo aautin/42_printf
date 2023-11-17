@@ -12,10 +12,9 @@
 
 #include "ft_printf_b.h"
 
-char	*ft_c_to_str(char c, int nb)
+char	*ft_ctos(char c, int nb)
 {
 	char	*str;
-	
 
 	str = (char *)malloc((nb + 1) * sizeof(char));
 	if (!str)
@@ -30,11 +29,10 @@ int	ft_c_leftpad(char *s, t_list *lst, va_list vaarg)
 	char	*str;
 	int		i;
 
-	str = ft_c_to_str(va_arg(vaarg, int), 1);
+	str = ft_strjoin_free(ft_ctos(va_arg(vaarg, int), 1),
+		ft_ctos(' ', ft_atoi(s) - 1));
 	if (!str)
 		return (0);
-	printf("%d", ft_atoi(s));
-	ft_strlcat(str, ft_c_to_str(' ', ft_atoi(s) - 1), ft_atoi(s) - 1);
 	ft_lstadd_back(&lst, ft_lstnew(str));
 	i = 0;
 	while (s[i] != 'c' && s[i])
@@ -47,10 +45,10 @@ int	ft_c_rightpad(char *s, t_list *lst, va_list vaarg)
 	char	*str;
 	int		i;
 
-	str = ft_c_to_str(' ', ft_atoi(s) - 1);
+	str = ft_strjoin_free(ft_ctos(' ', ft_atoi(s) - 1),
+		ft_ctos(va_arg(vaarg, int), 1));
 	if (!str)
 		return (0);
-	ft_strlcat(str, ft_c_to_str(va_arg(vaarg, int), 1), ft_atoi(s) - 1);
 	ft_lstadd_back(&lst, ft_lstnew(str));
 	i = 0;
 	while (s[i] != 'c' && s[i])
@@ -61,10 +59,10 @@ int	ft_c_rightpad(char *s, t_list *lst, va_list vaarg)
 int	ft_ctype(t_list *lst, va_list vaarg, char *s)
 {
 	if (*s == 'c')
-		ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(va_arg(vaarg, int), 1)));
+		ft_lstadd_back(&lst, ft_lstnew(ft_ctos(va_arg(vaarg, int), 1)));
 	else if (*s == '-' && *(s + 1) == 'c')
 	{
-		ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(va_arg(vaarg, int), 1)));
+		ft_lstadd_back(&lst, ft_lstnew(ft_ctos(va_arg(vaarg, int), 1)));
 		return (1);
 	}
 	else if (*s == '-' && '1' <= *(s + 1) && *(s + 1) <= '9')

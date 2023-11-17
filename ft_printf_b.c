@@ -12,6 +12,35 @@
 
 #include "ft_printf_b.h"
 
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	free(s1);
+	free(s2);
+	return (str);
+}
+
 int		ft_printlst(t_list *lst)
 {
 	int		i;
@@ -41,18 +70,18 @@ int		ft_printf(const char *s, ...)
 	t_list	*lst;
 
 	va_start(vaarg, s);
-	lst = ft_lstnew(ft_c_to_str(0, 0));
+	lst = ft_lstnew(ft_ctos(0, 0));
 	while (*s)
 	{
 		if (*s == '%' && *(s + 1) == '%')
 		{
-			ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str('%', 1)));
+			ft_lstadd_back(&lst, ft_lstnew(ft_ctos('%', 1)));
 			s++;
 		}
 		else if (*s == '%' && *(s + 1) != '\0')
 			s += ft_tag(lst, vaarg, (char *) (s + 1)) + 1;
 		else
-			ft_lstadd_back(&lst, ft_lstnew(ft_c_to_str(*s, 1)));
+			ft_lstadd_back(&lst, ft_lstnew(ft_ctos(*s, 1)));
 		s++;
 	}
 	va_end(vaarg);

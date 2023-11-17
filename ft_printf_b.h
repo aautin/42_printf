@@ -20,7 +20,9 @@
 int		ft_c_leftpad(char *s, t_list *lst, va_list vaarg);
 int		ft_c_rightpad(char *s, t_list *lst, va_list vaarg);
 int		ft_ctype(t_list *lst, va_list vaarg, char *s);
-char	*ft_c_to_str(char c, int nb);
+char	*ft_ctos(char c, int nb);
+
+char	*ft_strjoin_free(char *s1, char *s2);
 
 int		ft_tag(t_list *lst, va_list vaarg, char *s);
 int		ft_tag_type(char *s);
