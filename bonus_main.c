@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:58 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/17 20:34:37 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:04:18 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	main(int argc, char *argv[])
 	// printf("%+06i|\n", num);        // Zéros + largeur de champ + affichage du signe
 	// printf("% i|\n", num);          // Espace pour les positifs
 
-	if (argc == 2)
+	if (argc == 3)
 	{
-		printf("|%d\n", ft_printf(argv[1], argv[1][0])); 
-		printf("|%d\n", printf(argv[1], argv[1][0]));
+		printf("|%d\n", ft_printf(argv[1], argv[2])); 
+		printf("|%d\n", printf(argv[1], argv[2]));
 	}
 	return (0);
 }

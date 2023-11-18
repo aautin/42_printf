@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:47:36 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/17 20:30:49 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/18 15:54:37 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@ typedef struct s_tag
 	int		pre;
 }	t_tag;
 
-void	ft_putctag(char *src, t_tag *tag);
-void	ft_putnotag(char *s, t_tag *tag);
-void	ft_tags_init(t_tag *tags);
+void	ft_putcharnb_len(char a, int nb, int *len);
+void	ft_putctag(t_tag *tag);
 void	ft_putchar_len(int a, int *len);
+
+void	ft_tags_init(t_tag *tag);
 void	ft_tags_def(char *src, t_tag *tag);
 void	ft_tags_insert(char *src, t_tag * tag);
 
+void	ft_putstag(t_tag *tag);
+
+void	ft_putnotag(char *s, t_tag *tag);
 int		ft_nblen(int i);
 int		ft_printf(const char *s, ...);
 

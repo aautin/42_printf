@@ -6,6 +6,8 @@ SRC		=	ft_printf.c		\
 			conversions.c
 
 SRC_B	=	bonus_ft_printf.c	\
+			bonus_char.c		\
+			bonus_tags.c
 
 MAIN	=	main.c
 
