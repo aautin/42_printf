@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 15:44:46 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 05:18:49 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/20 16:21:12 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	ft_tags_insert(char *s, t_tag *tag)
 		ft_putptag(tag);
 	else if (s[tag->i] == '%')
 		ft_putchar_len('s', &tag->len);
+	else if (s[tag->i] == 'u')
+		ft_pututag(tag);
 }
-	// else if (s[tag->i] == 'u')
-	// 	ft_pututag(s, tag);
 
 void	ft_tags_def(char *src, t_tag *tag)
 {
@@ -68,7 +68,7 @@ void	ft_tags_def(char *src, t_tag *tag)
 	}
 	if (ft_strchr(&src[tag->i], '.') && !ft_isdigit(src[tag->i + 1]))
 	{
-		tag->pre = -2;
+		tag->pre = 0;
 		tag->i += 1;
 	}
 	else if (ft_strchr(&src[tag->i], '.') && ft_isdigit(src[tag->i + 1]))

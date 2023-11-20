@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:48:18 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 05:01:33 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/20 16:11:48 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_pre_str(int *nb, t_tag *tag, int strlen)
 	if (tag->pre > strlen)
 	{
 		tag->wi -= tag->pre - strlen;
-		*nb -= tag->pre - strlen;
+		(*nb)--;
 	}
 }
 

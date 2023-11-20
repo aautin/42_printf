@@ -11,6 +11,7 @@ SRC_B	=	bonus_ft_printf.c	\
 			bonus_putxtag.c		\
 			bonus_putptag.c		\
 			bonus_putdtag.c		\
+			bonus_pututag.c		\
 			bonus_tags.c
 
 MAIN	=	main.c
