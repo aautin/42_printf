@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_main.c                                       :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:54:58 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/18 16:04:18 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/20 05:16:45 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	main(int argc, char *argv[])
 
 	if (argc == 3)
 	{
-		printf("|%d\n", ft_printf(argv[1], argv[2])); 
-		printf("|%d\n", printf(argv[1], argv[2]));
+		printf("|%d\n", ft_printf(argv[1], ft_atoi(argv[2]))); 
+		printf("|%d\n", printf(argv[1], ft_atoi(argv[2])));
 	}
 	return (0);
 }

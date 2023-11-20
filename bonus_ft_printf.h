@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:47:36 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/18 15:54:37 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/20 05:06:45 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <stdarg.h>
 # include <stdio.h> // to DELETE !!!
+# include <unistd.h> // to DELETE !!!
 
 typedef struct s_tag
 {
@@ -33,17 +34,30 @@ typedef struct s_tag
 }	t_tag;
 
 void	ft_putcharnb_len(char a, int nb, int *len);
-void	ft_putctag(t_tag *tag);
 void	ft_putchar_len(int a, int *len);
+void	ft_putctag(t_tag *tag);
 
 void	ft_tags_init(t_tag *tag);
 void	ft_tags_def(char *src, t_tag *tag);
 void	ft_tags_insert(char *src, t_tag * tag);
 
+void	ft_putstr_len(char *str, int *printed);
 void	ft_putstag(t_tag *tag);
 
+void	ft_pre_str(int *nb, t_tag *tag, int strlen);
+void	ft_strlcat_c(char *dest, char src);
 void	ft_putnotag(char *s, t_tag *tag);
-int		ft_nblen(int i);
+size_t	ft_nblen(size_t i, int base);
 int		ft_printf(const char *s, ...);
+
+void	ft_insertxtag(t_tag *tag, int len, char *str);
+void	ft_puthexa_len(unsigned int nb, int *len, int maj, char *str);
+void	ft_putxtag(t_tag *tag, int maj);
+
+void	ft_putdtag(t_tag *tag);
+
+void	ft_putphexa_len(size_t nb, int *len, int maj, char *str);
+void	ft_insertptag(t_tag *tag, int len, char *str);
+void	ft_putptag(t_tag *tag);
 
 #endif

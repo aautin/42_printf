@@ -6,12 +6,16 @@ SRC		=	ft_printf.c		\
 			conversions.c
 
 SRC_B	=	bonus_ft_printf.c	\
-			bonus_char.c		\
+			bonus_putctag.c		\
+			bonus_putstag.c		\
+			bonus_putxtag.c		\
+			bonus_putptag.c		\
+			bonus_putdtag.c		\
 			bonus_tags.c
 
 MAIN	=	main.c
 
-MAIN_B	=	bonus_main.c
+MAIN_B	=	main2.c
 
 OBJ		=	$(SRC:.c=.o)
 

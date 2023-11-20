@@ -6,60 +6,50 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:48:18 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/18 17:23:48 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/20 05:01:33 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "bonus_ft_printf.h"
 
-int		ft_nblen(int i)
+void	ft_pre_str(int *nb, t_tag *tag, int strlen)
 {
-	int	len;
+	if (tag->pre > strlen)
+	{
+		tag->wi -= tag->pre - strlen;
+		*nb -= tag->pre - strlen;
+	}
+}
+
+size_t	ft_nblen(size_t i, int base)
+{
+	size_t	len;
 
 	len = 1;
-	while (i / 10)
+	while (i / base)
 	{
-		i /= 10;
+		i /= base;
 		len++;
 	}
 	return (len);
 }
 
-void	ft_putstag(t_tag *tag)
+void	ft_strlcat_c(char *dest, char src)
 {
 	char	*str;
-	int		len;
 
-	str = va_arg(tag->vaarg, char *);
-	len = ft_strlen(str);
-	if (tag->pre < len && tag->pre != -2)
-	{
-		len = tag->pre;
-		write(1, "0", 1);
-	}
-	if (tag->wi > len && !tag->minus)
-	{
-		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
-		write(1, "1", 1);
-	}
-	while (tag->start < len)
-	{
-		ft_putchar_len(str[tag->start++], &tag->len);
-		write(1, "2", 1);
-	}
-	if (tag->wi > len && tag->minus)
-	{
-		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
-		write(1, "3", 1);
-	}
+	str = (char *)malloc(2 * sizeof(char));
+	str[0] = src;
+	str[1] = '\0';
+	ft_strlcat(dest, str, ft_strlen(dest) + ft_strlen(str) + 1);
+	free(str);
 }
 
 void	ft_putnotag(char *s, t_tag *tag)
 {	
 	while (tag->start <= tag->i)
 	{
-		
 		if (tag->pre == -1 && s[tag->start] == '.')
 		{
 			ft_putchar_len(s[tag->start], &tag->len);
@@ -71,8 +61,7 @@ void	ft_putnotag(char *s, t_tag *tag)
 	}
 }
 
-
-int		ft_printf(const char *s, ...)
+int	ft_printf(const char *s, ...)
 {
 	t_tag	tag;
 
