@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:26:06 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/15 15:12:44 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/21 16:12:52 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_printf(const char *str, ...)
 	printed_chars = 0;
 	va_start(args, str);
 	while (*str)
-	{	
+	{
 		if (*str == '%' && *(str + 1) != '\0')
 			ft_vaarg(++str, args, &printed_chars);
 		else

@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:47:36 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 15:57:27 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/21 18:29:48 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	ft_putnotag(char *s, t_tag *tag);
 size_t	ft_nblen(size_t i, int base);
 int		ft_printf(const char *s, ...);
 
-void	ft_insertxtag(t_tag *tag, int len, char *str);
 void	ft_puthexa_len(unsigned int nb, int *len, int maj, char *str);
 void	ft_putxtag(t_tag *tag, int maj);
 
