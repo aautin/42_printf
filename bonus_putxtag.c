@@ -41,6 +41,12 @@ static void	ft_insertxtag(t_tag *tag, char *s, size_t nbsize, int maj)
 {
 	int	i;
 
+	if (tag->hastag)											// count0xinWi
+	{
+		tag->wi -= 2;
+		if (tag->wi < 0)
+			tag->wi = 0;
+	}
 	if ((size_t) tag->wi > nbsize && !tag->minus)				// leftwidthspace
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
 	if (tag->hastag)											// sharp
@@ -61,16 +67,19 @@ void		ft_putxtag(t_tag *tag, int maj)
 
 	nb = va_arg(tag->vaarg, unsigned int);
 	if (tag->hastag)
-		tag->hastag -= (nb == 0);									// nosharp in nullcase 
+		tag->hastag -= (nb == 0);								// nosharp in nullcase 
 	str = (char *)malloc((ft_nblen(nb, 16) + 1) * sizeof(char));
 	if (!str)
 		return ;
 	str[0] = '\0';
 	ft_puthexa_len(nb, &tag->len, maj, str);
-	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str))	// definedpre > nb : pre
+	if (tag->pre != -1)											// to make pre & wi look different
 	{
-		tag->zero = ' ';										// make pre & wi different
-		ft_insertxtag(tag, str, tag->pre, maj);
+		tag->zero = ' ';										
+		if ((size_t) tag->pre > ft_strlen(str))
+			ft_insertxtag(tag, str, tag->pre, maj);
+		else
+			ft_insertxtag(tag, str, ft_strlen(str), maj);
 	}
 	else														// else : strlen
 		ft_insertxtag(tag, str, ft_strlen(str), maj);

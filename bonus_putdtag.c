@@ -12,14 +12,12 @@
 
 #include "bonus_ft_printf.h"
 
-// still have to handle the minus sign of the nb to print when there is a precision.
-
 static void	ft_insert(t_tag *tag, char *s, size_t nbsize)
 {
 	size_t	i;
 
 	if (tag->plus || tag->space)										// countsignplusspace
-		nbsize--;
+		nbsize++;
 	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == ' ')	// leftwidthspace
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
 	if (tag->plus && s[0] != '-')										// signplus
@@ -30,8 +28,8 @@ static void	ft_insert(t_tag *tag, char *s, size_t nbsize)
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
 	if (tag->space && s[0] != '-')										// signspace
 		ft_putchar_len(' ', &tag->len);
-	if (nbsize > ft_strlen(s) - (s[0] == '-') && tag->pre != -1)		// precision
-		ft_putcharnb_len('0', nbsize - ft_strlen(s) + (s[0] == '-'), &tag->len);
+	if ((size_t) tag->pre > ft_strlen(s) - (s[0] == '-') && tag->pre != -1)		// precision
+		ft_putcharnb_len('0', (size_t) tag->pre - ft_strlen(s) + (s[0] == '-'), &tag->len);
 	i = -1;
 	while (s[++i])														// number (nosign)
 		if (s[i] != '-')
@@ -45,9 +43,9 @@ void		ft_putdtag(t_tag *tag)
 	char	*str;
 
 	str = ft_itoa(va_arg(tag->vaarg, int));
-	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str) - (str[0] == '-'))	// definedpre > nb : pre
+	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str))			// definedpre > nb : pre
 		ft_insert(tag, str, tag->pre);
-	else																		// else : strlen
-		ft_insert(tag, str, ft_strlen(str) - (str[0] == '-'));
+	else																// else : strlen
+		ft_insert(tag, str, ft_strlen(str));
 	free(str);
 }
