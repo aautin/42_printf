@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 01:53:50 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 04:05:18 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:30:54 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,14 @@ void	ft_putptag(t_tag *tag)
 
 	nb = va_arg(tag->vaarg, size_t);
 	if (nb == 0)
+	{
+		nb = 5;
+		if ((size_t) tag->wi > nb && !tag->minus)
+			ft_putcharnb_len(tag->zero, tag->wi - nb, &tag->len);
 		ft_putstr_len("(nil)", &tag->len);
+		if ((size_t) tag->wi > nb && tag->minus)
+			ft_putcharnb_len(tag->zero, tag->wi - nb, &tag->len);
+	}
 	else
 	{
 		str = (char *)malloc((ft_nblen(nb, 16) + 1) * sizeof(char));

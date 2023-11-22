@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 05:05:58 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/21 19:31:08 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 19:22:00 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ static void	ft_insert(t_tag *tag, char *s, size_t nbsize)
 {
 	size_t	i;
 
+	if (s[0] == '0' && tag->pre == 0)
+	{
+		s[0] = '\0';
+		nbsize = 0;
+		tag->zero = ' ';
+	}
+	if (tag->pre != -1)
+		tag->zero = ' ';
 	if (tag->plus || tag->space)										// countsignplusspace
 		nbsize++;
 	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == ' ')	// leftwidthspace
@@ -43,9 +51,11 @@ void		ft_putdtag(t_tag *tag)
 	char	*str;
 
 	str = ft_itoa(va_arg(tag->vaarg, int));
-	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str))			// definedpre > nb : pre
-		ft_insert(tag, str, tag->pre);
-	else																// else : strlen
+	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str) - (str[0] == '-'))	// definedpre > nb : pre
+	{
+		ft_insert(tag, str, tag->pre + (str[0] == '-'));
+	}
+	else																		// else : strlen
 		ft_insert(tag, str, ft_strlen(str));
 	free(str);
 }

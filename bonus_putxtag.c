@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 23:04:42 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/21 19:27:18 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 17:02:37 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ static void	ft_insertxtag(t_tag *tag, char *s, size_t nbsize, int maj)
 {
 	int	i;
 
+	if (s[0] == '0' && tag->pre == 0)
+	{
+		s[0] = '\0';
+		nbsize = 0;
+	}
+	if (tag->pre != -1)
+		tag->zero = ' ';	
 	if (tag->hastag)											// count0xinWi
 	{
 		tag->wi -= 2;

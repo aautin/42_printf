@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 15:44:46 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 16:21:12 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 18:25:13 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,19 @@ void	ft_tags_insert(char *s, t_tag *tag)
 	else if (s[tag->i] == 'p')
 		ft_putptag(tag);
 	else if (s[tag->i] == '%')
-		ft_putchar_len('s', &tag->len);
+		ft_putchar_len('%', &tag->len);
 	else if (s[tag->i] == 'u')
 		ft_pututag(tag);
+}
+
+static int	nbinfront(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isdigit(s[i]))
+		i++;
+	return (i);
 }
 
 void	ft_tags_def(char *src, t_tag *tag)
@@ -64,16 +74,16 @@ void	ft_tags_def(char *src, t_tag *tag)
 	if (ft_isdigit(src[tag->i]))
 	{
 		tag->wi = ft_atoi(&src[tag->i]);
-		tag->i += ft_nblen(tag->wi, 10);
+		tag->i += nbinfront(&src[tag->i]);
 	}
-	if (ft_strchr(&src[tag->i], '.') && !ft_isdigit(src[tag->i + 1]))
+	if (src[tag->i] == '.' && !ft_isdigit(src[tag->i + 1]))
 	{
 		tag->pre = 0;
 		tag->i += 1;
 	}
-	else if (ft_strchr(&src[tag->i], '.') && ft_isdigit(src[tag->i + 1]))
+	else if (src[tag->i] == '.' && ft_isdigit(src[tag->i + 1]))
 	{
 		tag->pre = ft_atoi(&src[tag->i + 1]);
-		tag->i += ft_nblen(tag->pre, 10) + 1;
+		tag->i += nbinfront(&src[tag->i + 1]) + 1;
 	}
 }

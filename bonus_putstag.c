@@ -6,13 +6,28 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 23:00:15 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/20 04:29:15 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:15:31 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_ft_printf.h"
 
-void	ft_putstr_len(char *str, int *printed)
+static void	ft_putnullstr(int *printed, t_tag *tag)
+{
+	int len;
+
+	len = 6;
+	if (tag->pre < len && tag->pre > -1)
+		len = tag->pre;
+	if (tag->wi > len && !tag->minus)
+		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
+	if (!(tag->pre < 6) || tag->pre == -1)
+		ft_putstr_len("(null)", printed);
+	if (tag->wi > len && tag->minus)
+		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
+}
+
+void		ft_putstr_len(char *str, int *printed)
 {
 	int	i;
 
@@ -29,7 +44,7 @@ void	ft_putstr_len(char *str, int *printed)
 	}
 }
 
-void	ft_putstag(t_tag *tag)
+void		ft_putstag(t_tag *tag)
 {
 	char	*str;
 	int		len;
@@ -37,12 +52,14 @@ void	ft_putstag(t_tag *tag)
 
 	i = -1;
 	str = va_arg(tag->vaarg, char *);
+	if (!str)
+		return (ft_putnullstr(&tag->len, tag));
 	len = ft_strlen(str);
 	if (tag->pre < len && tag->pre > -1)
 		len = tag->pre;
 	if (tag->wi > len && !tag->minus)
 		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
-	while (++i < len && tag->pre != -2)
+	while (++i < len && tag->pre != -2 && str)
 		ft_putchar_len(str[i], &tag->len);
 	if (tag->wi > len && tag->minus)
 		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
