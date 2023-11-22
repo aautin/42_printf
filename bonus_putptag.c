@@ -6,11 +6,11 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 01:53:50 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/22 16:30:54 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 20:52:53 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_ft_printf.h"
+#include "ft_printf.h"
 
 void	ft_putphexa_len(size_t nb, int *len, int maj, char *str)
 {
@@ -52,7 +52,7 @@ void	ft_insertptag(t_tag *tag, int len, char *str)
 void	ft_putptag(t_tag *tag)
 {
 	char		*str;
-	size_t	nb;
+	size_t		nb;
 
 	nb = va_arg(tag->vaarg, size_t);
 	if (nb == 0)

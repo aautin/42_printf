@@ -6,15 +6,15 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 23:00:15 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/22 16:15:31 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 20:38:47 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_ft_printf.h"
+#include "ft_printf.h"
 
 static void	ft_putnullstr(int *printed, t_tag *tag)
 {
-	int len;
+	int	len;
 
 	len = 6;
 	if (tag->pre < len && tag->pre > -1)
@@ -27,7 +27,7 @@ static void	ft_putnullstr(int *printed, t_tag *tag)
 		ft_putcharnb_len(' ', tag->wi - len, &tag->len);
 }
 
-void		ft_putstr_len(char *str, int *printed)
+void	ft_putstr_len(char *str, int *printed)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ void		ft_putstr_len(char *str, int *printed)
 	}
 }
 
-void		ft_putstag(t_tag *tag)
+void	ft_putstag(t_tag *tag)
 {
 	char	*str;
 	int		len;

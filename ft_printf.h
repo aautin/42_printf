@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_ft_printf.h                                  :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 13:47:36 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/21 18:29:48 by aautin           ###   ########.fr       */
+/*   Created: 2023/11/22 21:34:09 by aautin            #+#    #+#             */
+/*   Updated: 2023/11/22 21:37:54 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BONUS_FT_PRINTF_H
-# define BONUS_FT_PRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include "libft/libft.h"
 # include <stdarg.h>
-# include <stdio.h> // to DELETE !!!
-# include <unistd.h> // to DELETE !!!
 
 typedef struct s_tag
 {
@@ -39,7 +37,7 @@ void	ft_putctag(t_tag *tag);
 
 void	ft_tags_init(t_tag *tag);
 void	ft_tags_def(char *src, t_tag *tag);
-void	ft_tags_insert(char *src, t_tag * tag);
+void	ft_tags_insert(char *src, t_tag *tag);
 
 void	ft_putstr_len(char *str, int *printed);
 void	ft_putstag(t_tag *tag);

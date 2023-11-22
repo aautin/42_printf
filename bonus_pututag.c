@@ -6,11 +6,11 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 05:05:58 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/22 17:02:26 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 21:14:58 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_ft_printf.h"
+#include "ft_printf.h"
 
 static int	ft_nb_size(unsigned int n)
 {
@@ -56,48 +56,53 @@ static char	*ft_utoa(unsigned int n)
 	return (array);
 }
 
+static void	ft_insert2(t_tag *tag, char *c, size_t *nbsize)
+{
+	if (*c == '0' && tag->pre == 0)
+	{
+		*c = '\0';
+		*nbsize = 0;
+	}
+	if (tag->pre != -1 || (*c == '0' && tag->pre == 0))
+		tag->zero = ' ';
+}
+
 static void	ft_insert(t_tag *tag, char *s, size_t nbsize)
 {
 	size_t	i;
 
-	if (s[0] == '0' && tag->pre == 0)
-	{
-		s[0] = '\0';
-		nbsize = 0;
-		tag->zero = ' ';
-	}
-	if (tag->pre != -1)
-		tag->zero = ' ';	
-	if (tag->plus || tag->space)										// countsignplusspace
+	ft_insert2(tag, &(s[0]), &nbsize);
+	if (tag->plus || tag->space)
 		nbsize++;
-	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == ' ')	// leftwidthspace
+	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == ' ')
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
-	if (tag->plus && s[0] != '-')										// signplus
+	if (tag->plus && s[0] != '-')
 		ft_putchar_len('+', &tag->len);
-	if (s[0] == '-')													// signminus
+	if (s[0] == '-')
 		ft_putchar_len('-', &tag->len);
-	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == '0')	// leftwidthzero
+	if (nbsize < (size_t) tag->wi && !tag->minus && tag->zero == '0')
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
-	if (tag->space && s[0] != '-')										// signspace
+	if (tag->space && s[0] != '-')
 		ft_putchar_len(' ', &tag->len);
-	if ((size_t) tag->pre > ft_strlen(s) - (s[0] == '-') && tag->pre != -1)		// precision
-		ft_putcharnb_len('0', (size_t) tag->pre - ft_strlen(s) + (s[0] == '-'), &tag->len);
+	if ((size_t) tag->pre > ft_strlen(s) - (s[0] == '-') && tag->pre != -1)
+		ft_putcharnb_len('0', tag->pre - ft_strlen(s) + (s[0] == '-'),
+			&tag->len);
 	i = -1;
-	while (s[++i])														// number (nosign)
+	while (s[++i])
 		if (s[i] != '-')
 			ft_putchar_len(s[i], &tag->len);
-	if (nbsize < (size_t) tag->wi && tag->minus)						// right_width
+	if (nbsize < (size_t) tag->wi && tag->minus)
 		ft_putcharnb_len(tag->zero, tag->wi - nbsize, &tag->len);
 }
 
-void		ft_pututag(t_tag *tag)
+void	ft_pututag(t_tag *tag)
 {
 	char	*str;
 
 	str = ft_utoa(va_arg(tag->vaarg, unsigned int));
-	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str))			// definedpre > nb : pre
+	if (tag->pre != -1 && (size_t) tag->pre > ft_strlen(str))
 		ft_insert(tag, str, tag->pre);
-	else																// else : strlen
+	else
 		ft_insert(tag, str, ft_strlen(str));
 	free(str);
 }

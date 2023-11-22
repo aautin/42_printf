@@ -6,11 +6,11 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 15:44:46 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/22 18:25:13 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/22 21:24:55 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_ft_printf.h"
+#include "ft_printf.h"
 
 void	ft_tags_init(t_tag *tag)
 {
@@ -76,12 +76,7 @@ void	ft_tags_def(char *src, t_tag *tag)
 		tag->wi = ft_atoi(&src[tag->i]);
 		tag->i += nbinfront(&src[tag->i]);
 	}
-	if (src[tag->i] == '.' && !ft_isdigit(src[tag->i + 1]))
-	{
-		tag->pre = 0;
-		tag->i += 1;
-	}
-	else if (src[tag->i] == '.' && ft_isdigit(src[tag->i + 1]))
+	if (src[tag->i] == '.')
 	{
 		tag->pre = ft_atoi(&src[tag->i + 1]);
 		tag->i += nbinfront(&src[tag->i + 1]) + 1;
