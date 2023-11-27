@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aautin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:26:06 by aautin            #+#    #+#             */
-/*   Updated: 2023/08/10 13:42:59 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/27 15:38:25 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ft_strdup_sep(const char *s, size_t *pos, char sep)
 	return (str);
 }
 
-static void	ft_free_db_array(char **tab)
+static char	**ft_free_db_array(char **tab)
 {
 	int	i;
 
@@ -64,6 +64,7 @@ static void	ft_free_db_array(char **tab)
 		free(tab[i]);
 		i++;
 	}
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
@@ -87,10 +88,7 @@ char	**ft_split(char const *s, char c)
 			j++;
 		tab[i] = ft_strdup_sep(s, &j, c);
 		if (!tab[i])
-		{
-			ft_free_db_array(tab);
-			return (NULL);
-		}
+			return (ft_free_db_array(tab));
 		i++;
 	}
 	tab[size] = NULL;
