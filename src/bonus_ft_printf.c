@@ -6,7 +6,7 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:48:18 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/27 16:51:47 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/27 18:14:10 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	ft_printf(const char *s, ...)
 	tag.i = 0;
 	tag.len = 0;
 	va_start(tag.vaarg, s);
+	if (!s)
+		return (-1);
 	while (s[tag.i])
 	{
 		if (s[tag.i] == '%' && s[tag.i + 1] != '\0')
