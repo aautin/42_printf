@@ -6,11 +6,11 @@
 /*   By: aautin <aautin@student.42.fr >             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 01:53:50 by aautin            #+#    #+#             */
-/*   Updated: 2023/11/22 20:52:53 by aautin           ###   ########.fr       */
+/*   Updated: 2023/11/27 16:26:29 by aautin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../ft_printf.h"
 
 void	ft_putphexa_len(size_t nb, int *len, int maj, char *str)
 {

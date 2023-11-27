@@ -1,13 +1,13 @@
 NAME	=	libftprintf.a
 
-SRC		=	bonus_ft_printf.c	\
-			bonus_putctag.c		\
-			bonus_putstag.c		\
-			bonus_putxtag.c		\
-			bonus_putptag.c		\
-			bonus_putdtag.c		\
-			bonus_pututag.c		\
-			bonus_tags.c
+SRC		=	src/bonus_ft_printf.c	\
+			src/bonus_putctag.c		\
+			src/bonus_putstag.c		\
+			src/bonus_putxtag.c		\
+			src/bonus_putptag.c		\
+			src/bonus_putdtag.c		\
+			src/bonus_pututag.c		\
+			src/bonus_tags.c
 
 OBJ		=	$(SRC:.c=.o)
 
