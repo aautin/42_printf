@@ -13,7 +13,7 @@ OBJ		=	$(SRC:.c=.o)
 
 CC		=	cc
 
-CFLAGS	+=	-Wall -Werror -Wextra -g
+CFLAGS	+=	-Wall -Werror -Wextra
 
 RM		=	rm -f
 
@@ -30,11 +30,11 @@ all		:	$(NAME)
 bonus	:	all
 
 clean	:
-			$(RM) $(OBJ) $(OBJ_B)
+			$(RM) $(OBJ)
 
 fclean	:	clean
-			$(RM) $(NAME) $(EXEC)
+			$(RM) $(NAME)
 
 re		:	fclean all
 
-.PHONY	:	all prgm clean fclean re bonus
+.PHONY	:	all clean fclean re bonus
