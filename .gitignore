@@ -2,6 +2,7 @@ trip
 *.o
 a.out
 prgm
+libft/libft.a
 libftprintf.a
 test
 tester
